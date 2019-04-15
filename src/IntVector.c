@@ -4,18 +4,22 @@
 
 IntVector *int_vector_new(size_t initial_capacity)
 {
-	IntVector *v = malloc(sizeof(IntVector));
-	if (!v) {
-		return NULL;
-	}
-	v->data = malloc(sizeof(int) * initial_capacity);
-	if (!v->data) {
-		free(v);
-		return NULL;
-	}
-	v->size = 0;
-	v->capacity = initial_capacity;
-	return v;
+    if (initial_capacity >= 0) {
+        IntVector *v = malloc(sizeof(IntVector));
+        if (!v) {
+            return NULL;
+        }
+        v->data = malloc(sizeof(int) * initial_capacity);
+        if (!v->data) {
+            free(v);
+            return NULL;
+        }
+        v->size = 0;
+        v->capacity = initial_capacity;
+        return v;
+    } else {
+        return NULL;
+    }
 }
 
 IntVector *int_vector_copy(const IntVector *v)
@@ -45,7 +49,7 @@ void int_vector_free(IntVector *v)
 
 int int_vector_get_item(const IntVector *v, size_t index)
 {
-	if (index < int_vector_get_capacity(v)) {
+	if ((index >= 0) && (index < int_vector_get_capacity(v))) {
 		return v->data[index];
 	}
     return 0;
@@ -53,7 +57,7 @@ int int_vector_get_item(const IntVector *v, size_t index)
 
 void int_vector_set_item(IntVector *v, size_t index, int item)
 {
-	if (index < int_vector_get_capacity(v)) {
+	if ((index >= 0) && (index < int_vector_get_capacity(v))) {
 		v->data[index] = item;
 	}
 }
@@ -109,26 +113,34 @@ int int_vector_shrink_to_fit(IntVector *v)
 
 int int_vector_resize(IntVector *v, size_t new_size)
 {
-	if (new_size > int_vector_get_size(v)) {
-		for (int i = int_vector_get_size(v); i < new_size; i++) {
-			if (int_vector_push_back(v, 0) == -1) {
-				return -1;
-			}
-		}
-	}
-	v->size = new_size;
-	return 0;
+    if (new_size >= 0) {
+        if (new_size > int_vector_get_size(v)) {
+            for (int i = int_vector_get_size(v); i < new_size; i++) {
+                if (int_vector_push_back(v, 0) == -1) {
+                    return -1;
+                }
+            }
+        }
+        v->size = new_size;
+        return 0;
+    } else {
+        return -1;
+    }
 }
 
 int int_vector_reserve(IntVector *v, size_t new_capacity)
 {
-	if (new_capacity > v->capacity) {	
-		v->capacity = new_capacity;
-		int *new_v = realloc(v->data, sizeof(int) * v->capacity);
-		if (!new_v) {
-			return -1;
-		}
-		v->data = new_v;
-	}
-	return 0;
+    if (new_capacity >= 0) {
+        if (new_capacity > v->capacity) {	
+            v->capacity = new_capacity;
+            int *new_v = realloc(v->data, sizeof(int) * v->capacity);
+            if (!new_v) {
+                return -1;
+            }
+            v->data = new_v;
+        }
+        return 0;
+    } else {
+        return -1;
+    }
 }
