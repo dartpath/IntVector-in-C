@@ -19,10 +19,16 @@ int main()
 	for (int i = 0; i < int_vector_get_size(copy_v); i++){
 		printf("%d ", int_vector_get_item(copy_v, i));
 	}
+    
+    next
 
 //int_vector_free
 	int_vector_free(copy_v);
-
+    printf("Capacity = %d Size = %d\n", (int) int_vector_get_capacity(copy_v), (int) int_vector_get_size(copy_v));
+    for (int i = 0; i < int_vector_get_size(copy_v); i++){
+		printf("%d ", int_vector_get_item(copy_v, i));
+	}
+    
     next
 
 //int_vector_set_item
@@ -58,6 +64,19 @@ int main()
 //int_vector_resize
     int_vector_resize(v, 7);
 	printf("Capacity = %d Size = %d\n", (int) int_vector_get_capacity(v), (int) int_vector_get_size(v));
+    for (int i = 0; i < int_vector_get_size(v); i++){
+		printf("%d ", int_vector_get_item(v, i));
+	}
+    
+    next
+    
+    int_vector_resize(v, 0);
+    printf("Capacity = %d Size = %d\n", (int) int_vector_get_capacity(v), (int) int_vector_get_size(v));
+    for (int i = 0; i < int_vector_get_size(v); i++){
+		printf("%d ", int_vector_get_item(v, i));
+	}
+    int_vector_push_back(v, 13);
+    printf("Capacity = %d Size = %d\n", (int) int_vector_get_capacity(v), (int) int_vector_get_size(v));
     for (int i = 0; i < int_vector_get_size(v); i++){
 		printf("%d ", int_vector_get_item(v, i));
 	}
